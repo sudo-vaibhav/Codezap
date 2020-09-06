@@ -2,8 +2,8 @@ const User = require("../../../models/User/User");
 
 module.exports = async (req, res, next) => {
   const user = new User({
-    ...req.user,
     ...req.body,
+    ...req.user,
   });
 
   try {

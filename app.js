@@ -1,4 +1,3 @@
-// console.log(process.env);
 const express = require("express");
 const app = express();
 
@@ -22,6 +21,7 @@ mongoose.connect(mongo_uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 var db = mongoose.connection;
@@ -35,7 +35,7 @@ db.once("open", function () {
     );
     console.log(req.method, " request at: ", req.path);
     console.log("request body:\n", req.body);
-    console.log("request params:\n", req.params);
+    console.log("request query values:\n", req.query);
     next();
   });
 
@@ -43,10 +43,8 @@ db.once("open", function () {
 
   // error handler
   app.use((err, req, res, next) => {
-    console.log(err.message);
-    return res.status(400).send({
-      message: err.message,
-    });
+    console.log(err);
+    return res.status(400).send(err);
   });
 });
 

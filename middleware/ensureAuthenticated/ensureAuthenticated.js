@@ -47,9 +47,7 @@ const checkAuth = (req, res, next) => {
         });
     }
   } else {
-    return res.status(403).send({
-      message: "no authtoken provided in header",
-    });
+    next("no authtoken provided in header");
   }
 };
 
