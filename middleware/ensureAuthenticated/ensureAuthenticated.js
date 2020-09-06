@@ -1,5 +1,7 @@
 var admin = require("firebase-admin");
 require("dotenv").config();
+const User = require("../../models/User/User");
+
 // required for configuring firebase admin sdk
 var serviceAccount = {
   type: process.env.TYPE,
@@ -19,16 +21,20 @@ admin.initializeApp({
   databaseURL: process.env.FIREBASE_DB_URL,
 });
 
-const checkAuth = (req, res, next) => {
+const checkAuth = async (req, res, next) => {
   console.log(
     "inside ensureAuth middleware\n###############################################"
   );
 
   if (req.headers.authtoken) {
     if (req.headers.authtoken == "test") {
+      const user = await User.findOne({
+        user_id: "j4vM2gwuiARNg7c5uAbMddXVxiJ2",
+      });
       req.user = {
         user_id: "j4vM2gwuiARNg7c5uAbMddXVxiJ2",
         email: "abc@gmail.com",
+        ...user.toJSON(),
       };
       console.log("decoded token", req.user);
       next();
@@ -36,9 +42,13 @@ const checkAuth = (req, res, next) => {
       admin
         .auth()
         .verifyIdToken(req.headers.authtoken)
-        .then((decodedToken) => {
+        .then(async (decodedToken) => {
           console.log("decoded token", decodedToken);
-          req.user = decodedToken;
+          const user = await User.findOne({
+            user_id: decodedToken.user_id,
+          });
+          req.user = { ...decodedToken, ...user.toJSON() };
+          console.log(req.user);
           next();
         })
         .catch((err) => {

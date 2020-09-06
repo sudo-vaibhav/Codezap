@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 app.use(cors());
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+
+app.use(bodyParser.json({ limit: "6mb" }));
 
 require("dotenv").config();
 
@@ -29,22 +30,30 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   console.log("db connected");
 
-  app.use("/", (req, res, next) => {
-    console.log(
-      "inside troubleshooting middleware\n======================================================================"
-    );
-    console.log(req.method, " request at: ", req.path);
-    console.log("request body:\n", req.body);
-    console.log("request query values:\n", req.query);
-    next();
-  });
+  //   app.use("/", (req, res, next) => {
+  //     console.log(
+  //       "inside troubleshooting middleware\n======================================================================"
+  //     );
+  //     console.log(req.method, " request at: ", req.path);
+  //     console.log("request body:\n", req.body);
+  //     console.log("request query values:\n", req.query);
+  //     next();
+  //   });
 
   app.use("/", require("./routes"));
 
   // error handler
   app.use((err, req, res, next) => {
+    console.log(
+      "inside error handling middleware\n======================================================================"
+    );
     console.log(err);
-    return res.status(400).send(err);
+    if (typeof err == "string") {
+      return res.status(400).send({
+        message: err,
+      });
+    }
+    return res.status(400).send({ message: err.message });
   });
 });
 

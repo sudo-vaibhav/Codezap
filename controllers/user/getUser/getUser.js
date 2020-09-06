@@ -9,7 +9,6 @@ module.exports = async (req, res, next) => {
     if (user) {
       return res.status(200).send(user);
     } else {
-      console.log("user not found");
       next("user not found");
     }
   } catch (err) {

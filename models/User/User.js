@@ -19,8 +19,7 @@ const userSchema = mongoose.Schema(
     },
     profilePhoto: {
       type: String,
-      validate: /^(data:image\/[^;]+;base64[^"]+)?$/,
-      default: "",
+      validate: /data:image\/[^;]+;base64[^"]+$/,
     },
     username: {
       type: String,
@@ -32,7 +31,7 @@ const userSchema = mongoose.Schema(
     },
     bio: {
       type: String,
-      default: "",
+      required: true,
       trim: true,
     },
   },
