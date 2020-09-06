@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./constants.js"></script>
+    <script src="./key.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+<script>
+  var Firebase=firebaseConfig;
+  firebase.initializeApp(Firebase);
+  const auth=firebase.auth();
+</script>
+<script type="text/javascript">
+    initApp = function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) { //accessing idtoken of current user signed in
+            console.log(idToken);
+            fetch(constants.APIBaseURL+"/users",{ //sending idtoken to users route
+                method: 'POST',
+                headers: {
+                    'authtoken': idToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username : "abc"
+                }),
+                redirect: 'follow'
+            })
+            .then(resp=>resp.json())
+            .then(result=>{
+                console.log(result)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+          var displayName = user.displayName;
+          var email = user.email;
+          user.getIdToken().then(function(accessToken) {
+            document.getElementById('sign-in-status').textContent = 'Signed in';
+            document.getElementById('update').innerHTML="<button onclick='updateDetails()'>Update my details</button>";
+            document.getElementById('sign-in').innerHTML = "<button onclick='logout(event)'>Sign out</button>";
+            document.getElementById('account-details').textContent = JSON.stringify({
+              displayName: displayName,
+              email: email
+            }, null, '  ');
+          });
+        }) 
+        }
+        else {
+          // User is signed out.
+        //   document.getElementById('sign-in-status').textContent = 'Signed out';
+        //   document.getElementById('sign-in').innerHTML = "<a>Sign in</a>";
+        //   document.getElementById('account-details').textContent = 'null';
+            window.location.href = 'http://127.0.0.1:5500/index.html'
+        }
+    });
+    }
+    window.addEventListener('load', function() {
+      initApp();
+    });
+//     const logout=document.querySelector('#logout');
+
+    function logout(event){
+        event.preventDefault();
+        auth.signOut();
+    };
+
+    function updateDetails(){
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user){
+          firebase.auth().currentUser.getIdToken(true).then(function(idToken) { //accessing idtoken of current user signed in
+            console.log(idToken);
+            fetch(constants.APIBaseURL+"/update",{ //sending idtoken to users route
+                method: 'POST',
+                headers: {
+                    'authtoken': idToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username : "abc",
+                    bio:"i like to code"
+                }),
+                redirect: 'follow'
+            })
+            .then(resp=>resp.json())
+            .then(result=>{
+                console.log(result)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+          })
+        }
+      }) 
+    }
+
+  </script>
+</head>
+<body>
+  <div id="sign-in-status"></div>
+  <div id="sign-in"></div>
+  <pre id="account-details"></pre>
+  <div id="update"></div>
+</body>
+    
+</html>
