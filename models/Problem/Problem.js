@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const testCaseSchema = require("./testCase/testCaseSchema");
+const testCaseSchema = require('./testCase/testCaseSchema');
 
 const problemSchema = mongoose.Schema(
   {
@@ -17,13 +17,13 @@ const problemSchema = mongoose.Schema(
     },
     difficulty: {
       type: String,
-      enum: ["Easy", "Medium", "Hard", "Expert"],
-      default: "Easy",
+      enum: ['Easy', 'Medium', 'Hard', 'Expert'],
+      default: 'Easy',
       required: true,
     },
     contestId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Contest",
+      ref: 'Contest',
       immutable: true,
       default: null,
     },
@@ -31,7 +31,7 @@ const problemSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       immutable: true,
-      ref: "User",
+      ref: 'User',
     },
     testCases: [testCaseSchema],
   },
@@ -40,6 +40,16 @@ const problemSchema = mongoose.Schema(
   }
 );
 
-const Problem = mongoose.model("Problem", problemSchema);
+problemSchema.virtual('totalPoints').get(function () {
+  return this.testCases
+    .map((testCase) => {
+      return testCase.points;
+    })
+    .reduce((a, b) => {
+      return a + b;
+    }, 0);
+});
+
+const Problem = mongoose.model('Problem', problemSchema);
 
 module.exports = Problem;
