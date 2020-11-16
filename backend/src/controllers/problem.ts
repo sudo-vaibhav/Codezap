@@ -2,6 +2,8 @@ import Problem, { IBaseProblem } from '../models/Problem/Problem';
 import Contest from '../models/Contest/Contest';
 import Participant from '../models/Participant/Participant';
 import { Request, Response, NextFunction } from 'express';
+import Submission from '../models/Submission/Submission';
+import { omit } from 'lodash';
 // const
 
 const createProblem = async (req: Request, res: Response, next: NextFunction) => {
@@ -37,7 +39,7 @@ const getProblem = async (req: Request, res: Response, next: NextFunction) => {
         const [contest, participant] = await Promise.all([contestPromise, participantPromise]);
 
         if (contest.creatorId === userId || participant) {
-            const problem = await (await Problem.findById(problemId).populate('testcases').exec()).toJSON();
+            const problem = (await Problem.findById(problemId).populate('testcases')).toJSON();
             console.log(problem);
 
             if (contest.creatorId === userId) {
@@ -80,8 +82,29 @@ const updateProblem = async (req: IUpdateRequest, res: Response, next: NextFunct
         next(e);
     }
 };
+
+const addSubmission = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { problemId, contestId } = req.params;
+        // first check if current user has participated or not
+        const participant = await Participant.findOne({ participant_user_id: req.user.user_id, contestId });
+        if (participant) {
+            const submission = new Submission({
+                ...omit(req.body, 'scoredPoints'),
+                userId: req.user._id,
+                problemId,
+            });
+            await submission.save();
+            return res.send(submission.toJSON());
+        }
+        next('user not participating in the given event');
+    } catch (e) {
+        next(e);
+    }
+};
 export default {
     createProblem,
     getProblem,
     updateProblem,
+    addSubmission,
 };
