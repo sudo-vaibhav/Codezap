@@ -120,3 +120,4 @@ dist
 **/*/judge0-v1.10.0/judge0.conf
 # MacOS binaries
 .DS_Store
+codezap-firebase-config.json
