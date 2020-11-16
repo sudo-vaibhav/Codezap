@@ -1,19 +1,19 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const cors = require("cors");
+const cors = require('cors');
 app.use(cors());
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
-app.use(bodyParser.json({ limit: "6mb" }));
+app.use(bodyParser.json({ limit: '6mb' }));
 
-require("dotenv").config();
+require('dotenv').config();
 
 let mongo_uri = undefined;
-if (process.env.ENVIRONMENT == "DEV") {
-  mongo_uri = "mongodb://127.0.0.1:27017/codezap";
+if (process.env.ENVIRONMENT == 'DEV') {
+  mongo_uri = 'mongodb://127.0.0.1:27017/codezap';
 } else {
   mongo_uri = process.env.MONGODB_URI;
 }
@@ -26,9 +26,9 @@ mongoose.connect(mongo_uri, {
 });
 
 var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-  console.log("db connected");
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('db connected');
 
   //   app.use("/", (req, res, next) => {
   //     console.log(
@@ -40,15 +40,15 @@ db.once("open", function () {
   //     next();
   //   });
 
-  app.use("/", require("./routes"));
+  app.use('/', require('./routes'));
 
   // error handler
   app.use((err, req, res, next) => {
     console.log(
-      "inside error handling middleware\n======================================================================"
+      'inside error handling middleware\n======================================================================'
     );
     console.log(err);
-    if (typeof err == "string") {
+    if (typeof err == 'string') {
       return res.status(400).send({
         message: err,
       });
@@ -57,8 +57,4 @@ db.once("open", function () {
   });
 });
 
-const PORT = process.env.PORT || 1337;
-
-app.listen(PORT, () => {
-  console.log(`app running on port ${PORT}`);
-});
+module.exports = app;
