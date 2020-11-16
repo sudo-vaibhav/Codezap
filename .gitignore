@@ -116,7 +116,7 @@ dist
 .pnp.*
 
 # judge0 data
-judge0-v1.10.0/srv
-judge0-v1.10.0/judge0.conf
+**/*/judge0-v1.10.0/srv
+**/*/judge0-v1.10.0/judge0.conf
 # MacOS binaries
 .DS_Store
