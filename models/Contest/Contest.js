@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const contestSchema = mongoose.Schema(
   {
@@ -18,13 +18,13 @@ const contestSchema = mongoose.Schema(
       required: true,
       validate: [
         function () {
-          console.log("inside start time check");
+          console.log('inside start time check');
           console.log(this.startTime.getTime());
           console.log(Date.now());
           console.log(this.startTime.getTime() > Date.now());
           return this.startTime > Date.now();
         },
-        "Start Time should not be in the past",
+        'Start Time should not be in the past',
       ],
     },
     endTime: {
@@ -32,12 +32,9 @@ const contestSchema = mongoose.Schema(
       required: true,
       validate: [
         function () {
-          console.log("inside end time check");
-          console.log(this.startTime);
-          console.log(this.endTime);
           return this.endTime > this.startTime;
         },
-        "End time should be after start time",
+        'End time should be after start time',
       ],
     },
     description: {
@@ -52,7 +49,7 @@ const contestSchema = mongoose.Schema(
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: 'User',
       immutable: true,
     },
     secretCode: {
@@ -65,6 +62,6 @@ const contestSchema = mongoose.Schema(
   }
 );
 
-const Contest = mongoose.model("Contest", contestSchema);
+const Contest = mongoose.model('Contest', contestSchema);
 
 module.exports = Contest;
