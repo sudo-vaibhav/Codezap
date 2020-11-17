@@ -3,8 +3,7 @@ import Contest from '../models/Contest/Contest';
 import Participant from '../models/Participant/Participant';
 import { Request, Response, NextFunction } from 'express';
 import Submission from '../models/Submission/Submission';
-import { omit } from 'lodash';
-// const
+import pollJudgeForResult from '../helpers/pollJudgeForResult';
 
 const createProblem = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -62,6 +61,7 @@ interface IUpdateRequest extends Request {
         [P in keyof IBaseProblem]?: IBaseProblem[P];
     };
 }
+
 const updateProblem = async (req: IUpdateRequest, res: Response, next: NextFunction) => {
     try {
         const { contestId, problemId } = req.params;
@@ -83,6 +83,10 @@ const updateProblem = async (req: IUpdateRequest, res: Response, next: NextFunct
     }
 };
 
+export interface ISubmissionInfo {
+    sourceCode: string;
+    languageId: number;
+}
 const addSubmission = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { problemId, contestId } = req.params;
@@ -90,10 +94,14 @@ const addSubmission = async (req: Request, res: Response, next: NextFunction) =>
         const participant = await Participant.findOne({ participant_user_id: req.user.user_id, contestId });
         if (participant) {
             const submission = new Submission({
-                ...omit(req.body, 'scoredPoints'),
                 userId: req.user._id,
                 problemId,
             });
+            const problem = await Problem.findById(problemId);
+            const submissionInfo = req.body as ISubmissionInfo;
+
+            const obtainedScore = await pollJudgeForResult(problem, submissionInfo);
+            submission.maxScoredPoints = obtainedScore;
             await submission.save();
             return res.send(submission.toJSON());
         }
