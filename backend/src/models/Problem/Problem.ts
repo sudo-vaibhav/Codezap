@@ -50,7 +50,7 @@ problemSchema.virtual('totalPoints').get(function (this: IProblem) {
     }
 });
 
-interface ItestCase {
+export interface ITestCase {
     input: string;
     output: string;
     points: number;
@@ -61,7 +61,7 @@ export interface IBaseProblem {
     name: string;
     description: string;
     difficulty: string;
-    testCases: ItestCase[];
+    testCases: ITestCase[];
     // I am sad that I have to do this
     [key: string]: any;
 }
