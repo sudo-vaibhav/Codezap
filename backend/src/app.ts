@@ -30,7 +30,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('db connected');
-
     app.use('/', appRouter);
     // error handler
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
