@@ -93,16 +93,17 @@ const addSubmission = async (req: Request, res: Response, next: NextFunction) =>
         // first check if current user has participated or not
         const participant = await Participant.findOne({ participant_user_id: req.user.user_id, contestId });
         if (participant) {
-            const submission = new Submission({
-                userId: req.user._id,
-                problemId,
-            });
             const problem = await Problem.findById(problemId);
             const submissionInfo = req.body as ISubmissionInfo;
-
             const obtainedScore = await pollJudgeForResult(problem, submissionInfo);
-            submission.maxScoredPoints = obtainedScore;
-            await submission.save();
+            const submission = await Submission.findOneAndUpdate(
+                { userId: req.user._id, problemId },
+                {
+                    maxScoredPoints: obtainedScore,
+                },
+                { upsert: true, new: true },
+            );
+
             return res.send(submission.toJSON());
         }
         next('user not participating in the given event');
