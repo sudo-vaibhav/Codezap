@@ -1,11 +1,11 @@
 import { Schema, model, Document } from 'mongoose';
 import { IUser } from '../User/User';
-import Problem, { IProblem } from '../Problem/Problem';
-import axios from 'axios';
+import { IProblem } from '../Problem/Problem';
 const submissionSchema = new Schema(
     {
-        scoredPoints: {
+        maxScoredPoints: {
             type: Number,
+            default: 0,
         },
         userId: {
             type: Schema.Types.ObjectId,
@@ -19,70 +19,33 @@ const submissionSchema = new Schema(
             ref: 'Problem',
             immutable: true,
         },
-        userInput: {
-            type: String,
-            immutable: true,
-        },
-        languageId: {
-            type: Number,
-            immutable: true,
-            required: true,
-        },
-        judge0SubmissionTokens: [{ type: [String], default: [] }],
     },
     {
         timestamps: true,
     },
 );
 
-submissionSchema.methods.triggerJudge0 = async function () {
-    try {
-        console.log('trying to submit to judge0');
-        const submission: ISubmission = this;
-        const problem = await Problem.findById(submission.problemId).populate('testCases');
-        const testCases = problem.testCases || [];
+// a user can only have one existing submission per problem
+// so if they try to add a submission for a problem, either it will be added fresh
+// or updated (this happens successfully only if new score is higher than old score)
+submissionSchema.index({ userId: 1, problemId: 1 }, { unique: true });
 
-        const resp = await axios
-            .post(
-                'https://judge0.p.rapidapi.com/submissions/batch',
-                {
-                    submissions: testCases.map(testCase => {
-                        return {
-                            language_id: submission.languageId,
-                            source_code: submission.userInput,
-                            stdin: testCase.input,
-                            expected_output: testCase.output,
-                        };
-                    }),
-                },
-                {
-                    headers: {
-                        'content-type': 'application/json',
-                        'x-rapidapi-key': process.env['JUDGE_KEY'],
-                        'x-rapidapi-host': 'judge0.p.rapidapi.com',
-                    },
-                },
-            )
-            .then(resp => resp.data);
-        const newSubmission = await Submission.findById(submission._id);
-        newSubmission.judge0SubmissionTokens = resp.map((submission: { token: string }) => {
-            return submission.token;
-        });
-
-        await newSubmission.save();
-    } catch (e) {
-        console.log('error occured in doing judge0 submission\n', e);
+submissionSchema.pre('save', async function (next) {
+    console.log('inside score comparison middleware');
+    let newSubmission = this as ISubmission;
+    const oldSubmission = await Submission.findById(newSubmission._id);
+    if (newSubmission.maxScoredPoints < (oldSubmission ? oldSubmission.maxScoredPoints : 0)) {
+        throw new Error('an existing submission by user with a higher score already exists');
     }
-};
+    next();
+});
 
 export interface IBaseSubmission {
-    scoredPoints: number;
+    maxScoredPoints: number;
     userId: IUser['_id'];
     problemId: IProblem['_id'];
-    userInput: string | null;
-    languageId: number;
-    judge0SubmissionTokens: [string];
 }
+
 export interface ISubmission extends IBaseSubmission, Document {}
 const Submission = model<ISubmission>('Submission', submissionSchema);
 
