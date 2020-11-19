@@ -1,0 +1,238 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 max-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>CodeZap</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+    <script>
+      $(document).ready(function(){
+        $('.join_button').click(function(){
+          $('.mod').css('display','block')
+        })
+        $('.close').click(function(){
+          $('.mod').css('display','none')
+        })
+        $(window).click(function(){
+          var modal = $('.mod').get(0)
+          if(event.target==modal)
+          {
+            $('.mod').css('display','none')
+          }
+        })
+      })  
+    </script>
+    <script src="./constants.js"></script>
+    <script src="./key.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+<script>
+  var Firebase=firebaseConfig;
+  firebase.initializeApp(Firebase);
+  const auth=firebase.auth();
+</script>
+<script type="text/javascript">
+    initApp = function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) { //accessing idtoken of current user signed in
+            console.log(idToken);
+            fetch(constants.APIBaseURL+"/users",{ //sending idtoken to users route
+                method: 'POST',
+                headers: {
+                    'authtoken': idToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username : "abc"
+                }),
+                redirect: 'follow'
+            })
+            .then(resp=>resp.json())
+            .then(result=>{
+                console.log(result)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+          var displayName = user.displayName;
+          var email = user.email;
+          user.getIdToken().then(function(accessToken) {
+            document.getElementById('account-details').textContent = displayName;
+          });
+        }) 
+        }
+        else {
+            window.location.href = 'http://127.0.0.1:5500/home.html'
+        }
+    });
+    }
+    window.addEventListener('load', function() {
+      initApp();
+    });
+//     const logout=document.querySelector('#logout');
+
+    function logout(event){
+        event.preventDefault();
+        auth.signOut();
+    };
+
+    function updateDetails(){
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user){
+          firebase.auth().currentUser.getIdToken(true).then(function(idToken) { //accessing idtoken of current user signed in
+            console.log(idToken);
+            fetch(constants.APIBaseURL+"/update",{ //sending idtoken to users route
+                method: 'POST',
+                headers: {
+                    'authtoken': idToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username : "abc",
+                    bio:"i like to code"
+                }),
+                redirect: 'follow'
+            })
+            .then(resp=>resp.json())
+            .then(result=>{
+                console.log(result)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+          })
+        }
+      }) 
+    }
+
+  </script>
+</head>
+
+<body style="background-color: #F2F3F7;">
+    <nav class="navbar  my-nav">
+          <button class="my-2 my-sm-0 log_button" onclick="logout(event)">Log Out</button> <!--logout button -->    
+    </nav>
+    <hr class="my-hr">
+
+    <nav class="navbar  my-nav2" style="margin-bottom: 0;"> 
+           
+            <span class="nav-head" style="font-weight: 400;float: left; margin-bottom: 3%;margin-left: 4%;">
+              Your Dashboard
+           </span> 
+           <div class="navbar my-nav2-right" style="margin-bottom: 3%;margin-right: 4%;">
+           <img src="imgs/user.png" width=35 alt="" class="d-inline-block img-nav" loading="lazy"> <span class="nav-head" id="account-details"></span><!--username --> 
+          </div>
+        
+    </nav>
+    
+    
+    
+    <div class="jumbotron my-jumbotron" >
+      <h2 class="card-name" style="margin-left: 3%; ">Live Now :</h2>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join"  type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join" type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join" type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join"  type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join" type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-5 mt-5">
+              <center>
+              <div class="my-card">
+                <div class="card-body">
+                  <p style="font: size 16;" class="card-name">CodeZap 
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                  </p>
+                  <p class="card-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae amet fuga, accusantium deserunt minima magni dignissimos assumenda magnam distinctio delectus recusandae, accusamus sequi eaque at nihil aliquid illum velit nobis.</p>
+                  <button  style="margin-left: 12px;" class="my-2 my-sm-0 join_button" id="join"  type="submit">Join</button> <br>
+                </div>
+              </div>
+            </center>
+            </div>
+          </div>
+     </div>
+
+     <div class="mod" id="modal">
+      <div class="mod-content ml-auto mr-auto">
+        <div class="close">&times</div>
+        <div class="mod-content-inner">
+          <h1>CodeZap</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat harum soluta id voluptatibus fuga, rerum praesentium modi nam ut magni.</p>
+          <form action="./contestPage.html" method="post">
+            <label for="contest-code">Enter Contest Code</label><br>
+            <input type="text" name="contest-code" id="contest-code"><br><br>
+            <button type="submit"  >Join Now</button>
+          </form>
+         </div>
+      </div>
+    </div>
+     
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
