@@ -48,16 +48,16 @@ interface IContestRequest extends Request {
         [key in keyof IBaseContest]?: IBaseContest[key];
     };
 }
+
 const updateContest = async (req: IContestRequest, res: Response, next: NextFunction) => {
     try {
         const contestId = req.params.contestId;
         const updatedContest = req.body;
         const contest = await Contest.findById(contestId).exec();
         if (contest._id === req.user._id) {
-            const keys = Object.keys(updatedContest).filter(key => key != 'approved');
-            keys.forEach(key => {
-                contest[key] = updatedContest[key];
-            });
+            const keys = (Object.keys(updatedContest) as (keyof IBaseContest)[]).filter(key => key != 'approved');
+            keys.forEach(key => contest.set(key, updatedContest[key]));
+
             await contest.save();
             res.send(contest.toJSON());
         }

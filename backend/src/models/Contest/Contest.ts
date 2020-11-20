@@ -71,8 +71,6 @@ export interface IBaseContest {
     approved: boolean;
     creatorId: IUser['_id'];
     secretCode: string;
-    // not proud of this
-    [key: string]: any;
 }
 
 export interface IContest extends Document, IBaseContest {}

@@ -72,7 +72,7 @@ const updateProblem = async (req: IUpdateRequest, res: Response, next: NextFunct
             const updatedProblem = req.body;
             const problemKeys = Object.keys(updatedProblem) as [keyof IBaseProblem];
             problemKeys.forEach(key => {
-                problem[key] = updatedProblem[key];
+                problem.set(key, updatedProblem[key]);
             });
             await problem.save();
             return res.send(problem.toJSON());

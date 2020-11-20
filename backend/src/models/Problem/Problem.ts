@@ -62,8 +62,6 @@ export interface IBaseProblem {
     description: string;
     difficulty: string;
     testCases: ITestCase[];
-    // I am sad that I have to do this
-    [key: string]: any;
 }
 export interface IProblem extends IBaseProblem, Document {}
 const Problem = model<IProblem>('Problem', problemSchema);
