@@ -1,234 +1,181 @@
-
-
-.log_button
-{
-    background: #FF405F 0% 0% no-repeat padding-box;
-    box-shadow: 0px 5px 38px #00000042;
-    border-radius: 10px;
-    opacity: 1;
-    width:90px;
-    height:35px;
-    font-size: 16px;
-    border : 0px;
-    margin-left: auto;
-    margin-right: 35px;
-    margin-bottom: 20px;
-    color: whitesmoke;
-    font-weight: 400;
-    box-shadow: #00000042 0px 5px 38px;
-    font: normal normal medium 33px/39px Roboto;
+.log_button {
+  background: #ff405f 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 38px #00000042;
+  border-radius: 10px;
+  opacity: 1;
+  width: 90px;
+  height: 35px;
+  font-size: 16px;
+  border: 0px;
+  margin-left: auto;
+  margin-right: 35px;
+  margin-bottom: 20px;
+  color: whitesmoke;
+  font-weight: 400;
+  box-shadow: #00000042 0px 5px 38px;
+  font: normal normal medium 33px/39px Roboto;
 }
 
-.join_button
-{
-    background: #FF405F 0% 0% no-repeat padding-box;
-    box-shadow: 0px 5px 38px #00000042;
-    border-radius: 10px;
-    opacity: 1;
-    width:70px;
-    height:35px;
-    font-size: 16px;
-    border : 0px;
-    margin-left: auto;
-    float: right;
-    color: whitesmoke;
-    font-weight: 400;
-    box-shadow: #00000042 0px 5px 38px;
-    font: normal normal medium 33px/39px Roboto;
-    
+.join_button {
+  background: #ff405f 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 38px #00000042;
+  border-radius: 10px;
+  opacity: 1;
+  width: 70px;
+  height: 35px;
+  font-size: 16px;
+  border: 0px;
+  margin-left: auto;
+  float: right;
+  color: whitesmoke;
+  font-weight: 400;
+  box-shadow: #00000042 0px 5px 38px;
+  font: normal normal medium 33px/39px Roboto;
 }
 
-.my-nav
-{
-    background-color: #484A4B;
-    height: 80px;
-    width: 100%;
+.my-nav {
+  background-color: #484a4b;
+  height: 80px;
+  width: 100%;
 
-    opacity: 1;
-    z-index: 1;
+  opacity: 1;
+  z-index: 1;
 }
 
-.my-nav2
-{
-    background-color: white;
-    height: 62px;
-    width: 100%;
-    box-shadow: 0px 5px 38px #00000042;
-    opacity: 1;
-    font: normal normal medium 38px/46px Roboto;
-    letter-spacing: 0px;
-    color: #455A64;
-   
-    
-
+.my-nav2 {
+  background-color: white;
+  height: 62px;
+  width: 100%;
+  box-shadow: 0px 5px 38px #00000042;
+  opacity: 1;
+  font: normal normal medium 38px/46px Roboto;
+  letter-spacing: 0px;
+  color: #455a64;
 }
 
-.my-hr
-{
-    z-index: 2;
+.my-hr {
+  z-index: 2;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  height: 12px;
+  background-color: #ff405f;
+  box-shadow: 0px 2px 20px #00000042;
+  opacity: 1;
+}
+
+.my-jumbotron {
+  align-content: center;
+  padding-top: 0px;
+}
+
+.my-card {
+  border-bottom: #ff405f solid 5px;
+  box-shadow: 0px 2px 20px #00000042;
+  border-radius: 2px;
+  opacity: 1;
+  background-color: white;
+  width: 85%;
+  height: 40%;
+  max-height: 85%;
+}
+
+.nav-head {
+  text-align: left;
+  color: #455a64;
+  font-family: Roboto;
+  font-weight: 450;
+  font-size: 32px;
+  font-weight: 380;
+  letter-spacing: 1%;
+  font-size: 28px;
+  margin-left: 16px;
+}
+
+.card-name {
+  text-align: left;
+  color: #455a64;
+  font-family: Roboto;
+  font-weight: 450;
+  font-size: 32px;
+}
+
+.card-description {
+  text-align: left;
+  font-family: Gilroy;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0px;
+  color: #455a64;
+  opacity: 0.95;
+}
+
+.img-nav {
+  border-radius: 50%;
+  border: #455a64;
+  box-shadow: 0px 2px 20px #00000042;
+}
+
+.card_img {
+  margin-left: 110px;
+  margin-top: 0;
+  border-radius: 50%;
+  width: 20px;
+}
+
+.contestant_count {
+  color: #ff0000;
+  font-size: 25px;
+}
+
+@media screen and (max-width: 1200px) {
+  .card_img {
+    margin-left: 15%;
     margin-top: 0;
-    margin-bottom: 0;
-    width: 100%;
-    height: 12px;
-    background-color:  #FF405F;
-    box-shadow: 0px 2px 20px #00000042;
-    opacity: 1;
-}
-
-.my-jumbotron
-{
-    align-content: center;
-    padding-top: 0px;
-}
-
-
-
-
-.my-card
-{ 
-    
-    border-bottom: #FF405F solid 5px;
-    box-shadow: 0px 2px 20px #00000042;
-    border-radius: 2px;
-    opacity: 1;
-    background-color: white;
-    width: 85%;
-    height: 40%;
-    max-height: 85%;
-    
-}
-
-.nav-head
-{ 
-    
-    text-align: left;
-    color:#455A64;
-    font-family:  Roboto;
-    font-weight: 450;
-    font-size: 32px;
-    font-weight: 380;
-    letter-spacing: 1%;
-    font-size: 28px;
-    margin-left: 16px;
-    
-}
-
-.card-name
-{
-    text-align: left;
-    color:#455A64;
-    font-family:  Roboto;
-    font-weight: 450;
-    font-size: 32px;
-
-}
-
-.card-description
-{
-    text-align: left;
-    font-family: Gilroy;
-    font-weight: 300;
-    font-size: 12px;
-    letter-spacing: 0px;
-    color: #455A64;
-    opacity: 0.95;
-}
-
-.img-nav
-{
-
     border-radius: 50%;
-    border:  #455A64;
-    box-shadow: 0px 2px 20px #00000042;
-  
-}
+    width: 18px;
+  }
 
-
-.card_img
-    {
-        margin-left: 110px; 
-        margin-top: 0;
-        border-radius: 50%;
-        width: 20px;
-    }
-
-.contestant_count
-{
-    color:#FF0000;
-    font-size: 25px;
-}
-
-//MEDIA QUERIES//
-
-
-@media screen and (max-width:1200px)
-{
-    .card_img
-    {
-        margin-left: 15%; 
-        margin-top: 0;
-        border-radius: 50%;
-        width: 18px;
-    }
-
-    .contestant_count
-{
-    color:#FF0000;
+  .contestant_count {
+    color: #ff0000;
     font-size: 20px;
-}
+  }
 
-.nav-head
-{ 
-    
+  .nav-head {
     text-align: left;
-    color:#455A64;
-    font-family:  Roboto;
+    color: #455a64;
+    font-family: Roboto;
     font-weight: 450;
     font-size: 32px;
     font-weight: 380;
     letter-spacing: 1%;
     font-size: 24px;
     margin-left: 16px;
-    
-    
+  }
 }
 
+@media screen and (max-width: 1070px) {
+  .card_img {
+    margin-left: 6%;
+    margin-top: 0;
+    border-radius: 50%;
+    width: 15px;
+  }
 
-}
+  .contestant_count {
+    color: #ff0000;
+    font-size: 18px;
+  }
 
-@media screen and (max-width:1070px)
-{
-    .card_img
-    {
-        margin-left: 6%; 
-        margin-top: 0;
-        border-radius: 50%;
-        width: 15px;
-    }
-
-    .contestant_count
-    {
-        color:#FF0000;
-        font-size: 18px;
-    }
-
-    .nav-head
-{ 
-    
+  .nav-head {
     text-align: left;
-    color:#455A64;
-    font-family:  Roboto;
+    color: #455a64;
+    font-family: Roboto;
     font-weight: 450;
     font-size: 32px;
     font-weight: 380;
     letter-spacing: 1%;
     font-size: 16px;
     margin-left: 16px;
-    
-    
+  }
 }
-}
-
-
-
-
