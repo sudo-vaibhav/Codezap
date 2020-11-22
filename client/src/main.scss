@@ -1,0 +1,15 @@
+@import './colors.scss';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+body {
+  color: $dark;
+}
+.shadow {
+  box-shadow: 5px 36px #00000029;
+}
+
+.primary-styled-border {
+  border-width: 0 0 10px 0;
+  border-color: $primary;
+  border-style: solid;
+}
