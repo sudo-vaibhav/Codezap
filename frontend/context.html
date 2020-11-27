@@ -1,0 +1,353 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 max-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>CodeZap</title>
+
+</head>
+<style>
+    body{
+        font-family: Roboto;
+    }
+    .my-nav {
+        background-color: #484A4B;
+        height: 80px;
+        width: 100%;
+
+        opacity: 1;
+        z-index: 1;
+    }
+
+    .log_button {
+        background: #FF405F 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 38px #00000042;
+        border-radius: 10px;
+        opacity: 1;
+        width: 90px;
+        height: 35px;
+        font-size: 16px;
+        border: 0px;
+        margin-left: auto;
+        margin-right: 35px;
+        margin-bottom: 20px;
+        color: whitesmoke;
+        font-weight: 400;
+        box-shadow: #00000042 0px 5px 38px;
+        font: normal normal medium 33px/39px Roboto;
+    }
+
+    button:hover {
+        background-color: white;
+        color: #FF405F;
+        transition: background-color 0.1s linear;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    button:active {
+        box-shadow: 0 1px 10px #FF405F;
+        transform: scale(1.05);
+        transition: 0s;
+    }
+
+    .my-hr {
+        z-index: 2;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+        height: 12px;
+        background-color: #FF405F;
+        box-shadow: 0px 2px 20px #00000042;
+        opacity: 1;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        height: 100%;
+        grid-auto-rows: minmax(100%, auto);
+    }
+
+    .my-nav2 {
+        background-color: white;
+        height: 5.5vw;
+        width: 100%;
+        opacity: 1;
+        font: normal normal medium 38px/46px Roboto;
+        letter-spacing: 0px;
+        color: #455A64;
+        box-shadow: 0px 2px 20px #00000042;
+    }
+    .my-nav2 span{
+        font-size: 2.2vw;
+    }
+
+    .nav-head {
+
+        text-align: left;
+        color: #455A64;
+        font-family: Roboto;
+        font-weight: 450;
+        font-weight: 380;
+        letter-spacing: 1%;
+        margin-left: 16px;
+    }
+
+    .img-nav {
+        width: 3vw;
+        border-radius: 50%;
+        border: #455A64;
+        box-shadow: 0px 2px 20px #00000042;
+
+    }
+
+    .wrapper .leader-board {
+        background: #F8F8F8 0% 0% no-repeat padding-box;
+        box-shadow: 0px 2px 20px #00000042;
+        border-radius: 2px;
+        opacity: 1;
+        z-index: 1;
+        height: max-content;
+        /* position: fixed; */
+    }
+
+    .wrapper .contest {
+        height: 100%;
+    }
+
+    .ranking {
+        padding: 1em;
+    }
+
+    .ranking h1 {
+        color: #455A64;
+        padding-left: 5%;
+        font-size: 2vw;
+        margin-bottom: 0;
+    }
+
+    .ranking hr {
+        background-color: #FF405F;
+        width: 40%;
+        height: 0.3vw;
+        margin-top: 1.5vw;
+        margin-bottom: 1.5vw;
+    }
+
+    .ranking-list {
+        width: 20vw;
+        height: 20vw;
+        background-color: #ffff;
+        box-shadow: 0px 1px 10px #00000042;
+
+    }
+
+    .card_img {
+        margin-top: 10%;
+        border-radius: 50%;
+        width: 2vw;
+    }
+
+    .contestant_count {
+        margin-top: 10%;
+        color: #FF0000;
+        font-size: 1.5vw;
+    }
+
+    .ranking-head {
+
+        display: grid;
+        grid-template-columns: 10% 10% 80%;
+        grid-row-gap: 1em;
+    }
+
+    .question-box {
+        margin-top: 5%;
+        margin-bottom: 5%;
+        width: 80%;
+        height: 100%;
+        background-color: #ffff;
+        box-shadow: 0px 1px 10px #00000042;
+        padding: 3vw;
+        color: #455A64;
+    }
+
+    .question-box p {
+        font-size: 1.5vw;
+        font-weight: 600;
+    }
+    .question-box h1{
+        font-size: 3vw;
+    }
+
+    .problems h1 {
+        text-align: center;
+        color: #455A64;
+        font-size: 2vw;
+        margin-bottom: 0;
+    }
+
+    /* .problems ul li{
+        background-color: #fff;
+        box-shadow: 0px 1px 10px #00000042;
+        padding: 3px;
+        margin-top: 1vw;
+        width: 80%;
+        height: 30%;
+        list-style: none;
+        border-left: #FF405F 0.3vw solid;
+        
+    }
+    .problems ul li a{
+        margin-top: 1vw;
+    } */
+    .problem-list {
+        padding-bottom: 10%;
+        padding-top: 7%;
+    }
+
+    .problems .problem-list a div {
+        text-align: center;
+        width: 80%;
+        background-color: #fff;
+        box-shadow: 0px 1px 10px #00000042;
+        margin-bottom: 4%;
+        border-radius: 10px;
+        padding: 0.6vw 0.5vw;
+        border-left: #FF405F solid 4px;
+    }
+
+    .problem-list a div:hover {
+        border: #FF405F solid 2px;
+    }
+
+    .problem-list a {
+        color: #455A64;
+        font-size: 1.3vw;
+        width: 100%;
+        height: 100%;
+    }
+
+    .problem-list a:hover {
+        text-decoration: none;
+    }
+    @media only screen and (max-width:414px) {
+       .my-nav2{
+           height: 62px;
+       }
+       .my-nav2 span{
+           font-size: 16px;
+       }
+       .img-nav{
+           width: 35px;
+       }
+       .wrapper .leader-board{
+           display: none;
+       }
+       .wrapper{
+           grid-template-columns: 1fr 0fr;
+       }
+       .question-box h1{
+           font-size: 7vw;
+       }
+       .question-box p{
+           font-size: 3vw;
+       }
+    }
+</style>
+
+<body style="background-color: #F2F3F7;">
+    <nav class="navbar  my-nav">
+        <button class="my-2 my-sm-0 log_button" type="submit">Log Out</button>
+    </nav>
+    <hr class="my-hr">
+    <div class="wrapper">
+        <div class="contest">
+            <nav class="navbar  my-nav2" style="margin-bottom: 0;">
+
+                <span class="nav-head" style="font-weight: 400;float: left; margin-bottom: 3%;margin-left: 4%;">
+                    Contest Title
+                </span>
+                <div class="navbar my-nav2-right" style="margin-bottom: 3%;margin-right: 4%;">
+                    <img src="imgs/man.png"  alt="" class="d-inline-block img-nav" loading="lazy"> 
+                    <span class="nav-head">Username</span>
+                </div>
+            </nav>
+            <div class="question-box mr-auto ml-auto">
+                <h1>Problem Title</h1>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci perferendis cumque modi iusto
+                    reiciendis vero ab quos alias ex illum error mollitia saepe, placeat optio odit consequuntur tempore
+                    dolor. Delectus id velit inventore tenetur ex, odit tempore minus earum blanditiis.</p>
+                <div>
+                    <!-- IDE  -->
+                </div>
+            </div>
+        </div>
+
+        <div class="leader-board">
+            <div class="ranking">
+                <div class="ranking-head">
+                    <img src="imgs/user.png" class="card_img"><span class="contestant_count"> 45</span>
+                    <h1>Leaderboard</h1>
+                </div>
+                <hr>
+
+                <div class="ranking-list mr-auto ml-auto">
+                    <!-- Leader board  -->
+                </div>
+                <hr>
+            </div>
+
+            <div class="problems">
+                <h1>Problems</h1>
+                <div class="problem-list ">
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                    <a href="#">
+                        <div class="mr-auto ml-auto">Lorem ipsum dolor sit amet.</div>
+                    </a>
+                </div>
+                <!-- <ul class="mr-auto ml-auto">
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
+                </ul> -->
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
